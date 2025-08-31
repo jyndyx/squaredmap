@@ -1,0 +1,21 @@
+/* Mixins */
+@mixin primary-heading(
+    $family: 'Times',
+    $font-size-lg: 65px,
+    $font-size-md: 48px,
+    $font-size-sm: 32px,
+    $font-weight: 700,
+    $line-height: 1.1
+) {
+    font-family: $family;
+    font-weight: $font-weight;
+    line-height: $line-height;
+    font-size: $font-size-lg; 
+
+    @media (max-width: 992px) { 
+        font-size: $font-size-md; 
+    } 
+    @media (max-width: 768px) { 
+        font-size: $font-size-sm;
+    } 
+}
