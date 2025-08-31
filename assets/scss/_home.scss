@@ -30,6 +30,20 @@
 
 }
 
+#grow-efficiently {
+  border-style: solid;                  
+  border-width: 15px 0;              
+  border-image: linear-gradient(
+    90deg,
+    rgba(253, 122, 163, 1) 0%,
+    rgba(254, 232, 199, 1) 100%
+  ) 1;                                 
+}
+
+#grow-efficiently #lead-capture{
+    margin-top:-40px;
+}
+
 .el-is-editing  #grow-efficiently{
     margin-top:0;
 }

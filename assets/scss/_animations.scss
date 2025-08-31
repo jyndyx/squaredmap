@@ -77,7 +77,7 @@
 // GSAP Swipe In Left
 .gsap-swipe-in-left{
   --clip: 100%;
-  -webkit-clip-path: inset(0 var(--clip) 0 0); /* top right bottom left */
+  -webkit-clip-path: inset(0 var(--clip) 0 0); 
           clip-path: inset(0 var(--clip) 0 0);
   will-change: clip-path, opacity;
 }
@@ -86,6 +86,11 @@
   display: block; 
   width: 100%;
   height: auto;
+}
+
+// GSAP Fade In (50% in view)
+.gsap-fade-in { 
+  opacity: 0; 
 }
 
 // Disable in Elementor Editor
@@ -105,5 +110,9 @@
   --clip: 0%;
   opacity: 1 !important;
   visibility: visible !important;
+}
+
+.el-is-editing .gsap-fade-in {
+  opacity: 1 !important; 
 }
 

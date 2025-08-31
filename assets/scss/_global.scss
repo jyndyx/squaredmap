@@ -121,13 +121,54 @@
   content: "";
   position: absolute;
   inset: 0;
-  transform: translate(-20px, -20px); /* move the lines up/left */
+  transform: translate(-20px, -20px); 
   pointer-events: none;
-
-  /* two 1px lines: top (full + 20px) and left (full + 20px) */
   background:
     linear-gradient(var(--accent), var(--accent)) 0 0 / calc(100% + 20px) 1px no-repeat,
     linear-gradient(var(--accent), var(--accent)) 0 0 / 1px calc(100% + 20px) no-repeat;
+}
+
+// Footer
+.site-middle-footer-inner-wrap{
+    align-items:center;
+}
+
+.footer-html-inner p{
+    font-size:12px;
+    color: $secondary;
+}
+
+// Menu
+#mobile-menu .cta-menu a{
+    display: inline-block;
+    width: auto;
+    padding: 8px 20px;
+    background: $accent;
+    color: white;
+    margin: 20px 0;
+    border-radius: 100px;
+}
+
+// Forms
+#lead-capture form{
+    & > p{
+        display:flex;
+        .wpcf7-form-control-wrap{
+            width:80%;
+            input{
+                width:100%;
+            }
+        }
+        input[type="submit"]{
+            width:20%;
+            text-align:center;
+            background:$accent;
+            color:white;
+        }
+        .wpcf7-spinner{
+            margin:auto 0;
+        }
+    }
 }
 
 @media (min-width:0){

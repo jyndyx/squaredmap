@@ -15,7 +15,7 @@ function perlemedia_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'perlemedia_enqueue_styles' );
 
-// Output Google Analytics (gtag) as early in <head> as possible.
+// Output Google Analytics (gtag) as early in <head> as possible
 add_action('wp_head', function () { ?>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKJT0LQ3D"></script>
