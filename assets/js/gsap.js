@@ -2,7 +2,16 @@ jQuery(function($) {
 
     if (typeof gsap === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
-    ScrollTrigger.config({ ignoreMobileResize: true });
+    if (window.ScrollTrigger) {
+      ScrollTrigger.config({ ignoreMobileResize: true });
+    }
+
+    const IS_IOS = (() => {
+      const ua = navigator.userAgent || navigator.vendor || '';
+      const iOS = /iPad|iPhone|iPod/.test(ua);
+      const iPadOS = /Macintosh/.test(ua) && 'ontouchend' in document;
+      return iOS || iPadOS;
+    })();
 
     /* ===============================
     * Pinned sections that reveal on scroll
@@ -18,11 +27,11 @@ jQuery(function($) {
     const stepDur     = 0.75;
     const HOLD        = 1.25;
     const FINAL_FADE  = stepDur;
-    const FIRST_HOLD  = HOLD / 2;
     const EARLY_REVEAL_VH = 50;
 
     const steps       = panels.length - 1;
     const holdsCnt    = Math.max(steps - 1, 0);
+    const FIRST_HOLD  = HOLD / 2;
     const lastHold    = steps > 0 ? HOLD : 0;
     const totalUnits  = FIRST_HOLD + (steps * stepDur) + (holdsCnt * HOLD) + lastHold + FINAL_FADE;
 
@@ -38,48 +47,62 @@ jQuery(function($) {
     });
     const last = panels[panels.length - 1];
 
-    // Compute end distance in px (maps your "units"×vh minus early reveal)
-    const getEndPx = () => {
+    // === iOS-safe 'end' distance (equivalent to your spacer shrink) ===
+    const iosEnd = () => {
       const vh    = window.innerHeight;
       const early = Math.round(vh * (EARLY_REVEAL_VH / 100));
-      return '+=' + Math.max(0, Math.round(totalUnits * vh) - early);
+      const px    = Math.max(0, Math.round(totalUnits * vh) - early);
+      return '+=' + px;
     };
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: stage,
-        start: 'top top',
-        end: getEndPx,           // don't mutate pinSpacer; just set distance
-        scrub: true,
-        pin: stage,
-        pinSpacing: true,        // ST manages the spacer itself
-        pinReparent: true,       // avoids layout drift in flex/overflow wrappers
-        pinType: 'transform',    // smoother on iOS than "fixed"
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onToggle: self => gsap.set(stage, { zIndex: self.isActive ? 999 : '' }),
-        // No onRefreshInit/onRefresh hacks to resize the spacer
-      }
-    });
+    // === your timeline, with ST options changed only on iOS ===
+    const stOpts = {
+      trigger: stage,
+      start: 'top top',
+      scrub: true,
+      pin: stage,
+      pinSpacing: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onToggle: self => gsap.set(stage, { zIndex: self.isActive ? 999 : '' })
+    };
 
-    // Build your steps (unchanged)
+    if (IS_IOS) {
+      // iOS: do NOT mutate pinSpacer; compute end distance instead
+      stOpts.end = iosEnd;
+      // no onRefreshInit/onRefresh handlers here
+    } else {
+      // non-iOS: keep your current behavior 1:1
+      stOpts.end = () => '+=' + (totalUnits * window.innerHeight);
+      stOpts.onRefreshInit = self => { if (self.pinSpacer) self.pinSpacer.style.height = ''; };
+      stOpts.onRefresh = self => {
+        const spacer = self.pinSpacer;
+        if (!spacer) return;
+        const currentH = parseFloat(getComputedStyle(spacer).height) || 0;
+        const offset   = Math.max(0, Math.round(window.innerHeight * (EARLY_REVEAL_VH / 100)));
+        spacer.style.height = Math.max(0, currentH - offset) + 'px';
+      };
+    }
+
+    const tl = gsap.timeline({ scrollTrigger: stOpts });
+
+    // === your existing steps (unchanged) ===
     let t = 0;
     if (steps > 0) { tl.to({}, { duration: FIRST_HOLD }, t); t += FIRST_HOLD; }
+
     for (let i = 1; i < panels.length; i++) {
       tl.to(panels[i],     { yPercent: 0,             duration: stepDur, ease: 'power3.out' }, t);
       tl.to(panels[i - 1], { autoAlpha: 0, scale: .8, duration: stepDur, ease: 'power3.out' }, t);
       tl.set(panels[i],    { zIndex: baseZ }, t + stepDur - 0.001);
+
       if (i < panels.length - 1) { tl.to({}, { duration: HOLD }); t += stepDur + HOLD; }
       else { t += stepDur; }
     }
+
     if (lastHold > 0) { tl.to({}, { duration: lastHold }, t); t += lastHold; }
     tl.to(last, { autoAlpha: 0, scale: 0.8, duration: FINAL_FADE, ease: 'power3.out' }, t);
 
-    // Solid refreshes without jitter
-    let to;
-    const debouncedRefresh = () => { clearTimeout(to); to = setTimeout(() => ScrollTrigger.refresh(), 80); };
     window.addEventListener('load', () => ScrollTrigger.refresh());
-    window.addEventListener('resize', debouncedRefresh);
   })();
 
     /* ===============================
