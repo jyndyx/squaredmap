@@ -22,7 +22,7 @@ jQuery(function($) {
 
     const steps       = panels.length - 1;
     const holdsCnt    = Math.max(steps - 1, 0);
-    const FIRST_HOLD  = HOLD / 2;     
+    const FIRST_HOLD  = HOLD * 2.5;     
     const lastHold    = steps > 0 ? HOLD : 0;
     const totalUnits  = FIRST_HOLD + (steps * stepDur) + (holdsCnt * HOLD) + lastHold + FINAL_FADE;
 
@@ -46,7 +46,7 @@ jQuery(function($) {
         scrub: true,
         pin: stage,
         pinSpacing: true,
-        anticipatePin: 1,
+        anticipatePin: 0,
         invalidateOnRefresh: true,
         onToggle: self => gsap.set(stage, { zIndex: self.isActive ? 999 : '' }),
         onRefreshInit: self => { if (self.pinSpacer) self.pinSpacer.style.height = ''; },
