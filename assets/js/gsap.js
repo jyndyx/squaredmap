@@ -30,7 +30,7 @@ jQuery(function($) {
         gsap.set(p, {
         position: 'absolute',
         inset: 0,
-        zIndex: baseZ - i,
+        zIndex: baseZ + i,
         autoAlpha: 1,
         scale: 1,
         yPercent: i === 0 ? 0 : 100
@@ -70,7 +70,6 @@ jQuery(function($) {
     for (let i = 1; i < panels.length; i++) {
         tl.to(panels[i],     { yPercent: 0,            duration: stepDur, ease: 'power3.out' }, t);
         tl.to(panels[i - 1], { autoAlpha: 0, scale: .8, duration: stepDur, ease: 'power3.out' }, t);
-        tl.set(panels[i],    { zIndex: baseZ }, t + stepDur - 0.001);
 
         if (i < panels.length - 1) {
         tl.to({}, { duration: HOLD });
