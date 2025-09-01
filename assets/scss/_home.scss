@@ -47,3 +47,96 @@
 .el-is-editing  #grow-efficiently{
     margin-top:0;
 }
+
+/* Keep the outer container “still” and clip overflow */
+.testimonial-container {
+    position: relative;
+    overflow: hidden!important;
+    .testimonial-track {
+        display: flex;
+        flex-direction: row;     
+        align-items: stretch;
+        width: 100%;
+        will-change: transform;
+        transform: translate3d(0,0,0);
+        transition: transform 420ms ease;
+        gap: 0 !important;
+        column-gap: 0 !important;
+        row-gap: 0 !important;
+        flex-wrap: nowrap !important;
+        & > .testimonial-slide {
+            padding: clamp(16px, 3vw, 28px); 
+            --container-widget-width: 100% !important;
+            --container-widget-flex-grow: 0 !important;
+            flex: 0 0 100% !important;
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box;
+        }
+    }
+    .testimonial-controls {
+        position: absolute;
+        left: 0; right: 0; bottom: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        pointer-events: none;
+        z-index: 3;
+        .testimonial-btn {
+            pointer-events: auto;
+            background: #1118;
+            border: 0;
+            border-radius: 999px;
+            padding: 8px 12px;
+            color: #fff;
+            cursor: pointer;
+            line-height: 1;
+            &:hover,
+            &:focus { 
+                background: #111c; 
+            }
+        }
+        .testimonial-dots { 
+            pointer-events: auto; display: flex; gap: 8px; 
+            .testimonial-dot {
+                width: 8px; height: 8px; border-radius: 50%;
+                background: #999; border: 0; padding: 0; cursor: pointer;
+                &[aria-current="true"] { 
+                    background: #333; 
+                }
+            }
+        }
+    }
+
+}
+
+.testimonial-arrows {
+    display: flex;
+    gap: 1px;
+    justify-content: center;
+    align-items: center; 
+    position: absolute;
+    bottom: 0;
+    right: 0;    
+    padding:20px;
+    z-index:999; 
+    .testimonial-btn {
+        background: transparent;
+        border-radius: 0;
+        padding: 0;
+        color: black;
+        cursor: pointer;
+        line-height: 1;
+        
+        svg{
+            fill:white;
+        }
+        &:hover svg,
+        &:focus svg{
+            fill: $primary;
+
+        }
+    }
+}

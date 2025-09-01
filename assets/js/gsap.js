@@ -203,6 +203,7 @@ jQuery(function($) {
       });
     })();
 
+    
    /* ===============================
     * Entrance Animation: Swipe In Left
     * =============================== */
@@ -239,39 +240,38 @@ jQuery(function($) {
       });
   })();
 
-  // === Simple Fade-In when 50% in view ===
-(function setupFadeInHalfView(){
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+   /* ===============================
+    * Entrance Animation: Fade In
+    * =============================== */
+  (function setupFadeInHalfView(){
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-  const inEditor = !!(window.elementorFrontend?.isEditMode?.());
+    const inEditor = !!(window.elementorFrontend?.isEditMode?.());
 
-  gsap.utils.toArray('.gsap-fade-in').forEach(el => {
-    if (el.__fadeBound) return;
-    el.__fadeBound = true;
+    gsap.utils.toArray('.gsap-fade-in').forEach(el => {
+      if (el.__fadeBound) return;
+      el.__fadeBound = true;
 
-    // Show it while editing in Elementor
-    if (inEditor) { gsap.set(el, { autoAlpha: 1 }); return; }
+      if (inEditor) { gsap.set(el, { autoAlpha: 1 }); return; }
 
-    const dur   = parseFloat(el.dataset.dur   || '0.8'); // optional: data-dur="1"
-    const delay = parseFloat(el.dataset.delay || '0');   // optional: data-delay="0.2"
-
-    gsap.fromTo(el,
-      { autoAlpha: 0 },
-      {
-        autoAlpha: 1,
-        duration: dur,
-        ease: 'power2.out',
-        delay,
-        scrollTrigger: {
-          trigger: el,
-          // start when the element's top + 50% of its height reaches the bottom of the viewport
-          start: () => 'top+=' + (el.offsetHeight * 0.5) + ' bottom',
-          toggleActions: 'play none none none',
-          once: true
+      const dur   = parseFloat(el.dataset.dur   || '0.8'); 
+      const delay = parseFloat(el.dataset.delay || '0');   
+      gsap.fromTo(el,
+        { autoAlpha: 0 },
+        {
+          autoAlpha: 1,
+          duration: dur,
+          ease: 'power2.out',
+          delay,
+          scrollTrigger: {
+            trigger: el,
+            start: () => 'top+=' + (el.offsetHeight * 0.5) + ' bottom',
+            toggleActions: 'play none none none',
+            once: true
+          }
         }
-      }
-    );
-  });
-})();
+      );
+    });
+  })();
 
-});
+  });
