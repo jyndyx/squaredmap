@@ -16,7 +16,7 @@ jQuery(function($) {
 
     const baseZ       = 100;
     const stepDur     = 0.75;
-    const HOLD        = .5;     
+    const HOLD        = 0;     
     const FINAL_FADE  = stepDur;
     const EARLY_REVEAL_VH = 50;
 
