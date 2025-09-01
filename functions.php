@@ -1,5 +1,7 @@
 <?php
-// Enqueue parent + child theme styles
+/**
+ * Enqueue Child Theme Styles and Inits
+ */
 function perlemedia_enqueue_styles() {
     wp_enqueue_style( 'kadence-style', get_template_directory_uri() . '/style.css' );
     wp_enqueue_style( 'perlemedia-style', get_stylesheet_directory_uri() . '/style.css', array('kadence-style') );
@@ -15,7 +17,9 @@ function perlemedia_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'perlemedia_enqueue_styles' );
 
-// Output Google Analytics (gtag) as early in <head> as possible
+/**
+ * Inject Google Analytics Script
+ */
 add_action('wp_head', function () { ?>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKJT0LQ3D"></script>
@@ -26,3 +30,26 @@ add_action('wp_head', function () { ?>
     gtag('config', 'G-CXKJT0LQ3D');
   </script>
 <?php }, 1);
+
+/**
+ * Custom login page logo
+ */
+function customLoginLogo()
+{
+echo '<style type="text/css"> h1 a {  background-image:url("https://perlemedia.com/wp-content/uploads/2019/01/perlemedia-logo.png") !important; height:73px!important;
+		width:300px!important;
+		background-size: 300px 73px!important;
+		background-repeat: no-repeat!important; } 
+    body.login { background: #21242e !important; }
+    #loginform { background: #c9c9c9 !important; }
+    </style>';
+}
+add_action('login_head',  'customLoginLogo');
+function customLoginLogoURL() {
+    return 'https://perlemedia.com';
+}
+add_filter( 'login_headerurl', 'customLoginLogoURL' );
+function customLoginLogoTitle() {
+    return 'PerleMedia Website Design & Development';
+}
+add_filter( 'login_headertitle', 'customLoginLogoTitle' );
