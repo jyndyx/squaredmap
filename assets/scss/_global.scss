@@ -1,4 +1,9 @@
 /* Global Styles */
+html, 
+body{
+    overflow-x: hidden;
+}
+
 // Sections
 .overflow-hidden{
     overflow:hidden!important;
