@@ -3,6 +3,13 @@ jQuery(function($) {
     if (typeof gsap === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true });
+    const IS_TOUCH = window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (IS_TOUCH && window.ScrollTrigger && ScrollTrigger.normalizeScroll) {
+      ScrollTrigger.normalizeScroll({
+        allowNestedScroll: true,
+        debounce: true
+      });
+    }
 
     /* ===============================
     * Pinned sections that reveal on scroll
@@ -46,7 +53,7 @@ jQuery(function($) {
         scrub: true,
         pin: stage,
         pinSpacing: true,
-        anticipatePin: 0,
+        anticipatePin: 1,
         invalidateOnRefresh: true,
         onToggle: self => gsap.set(stage, { zIndex: self.isActive ? 999 : '' }),
         onRefreshInit: self => { if (self.pinSpacer) self.pinSpacer.style.height = ''; },
