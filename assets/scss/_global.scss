@@ -171,6 +171,10 @@
     }
 }
 
+.grecaptcha-badge{
+    display:none!important;
+}
+
 @media (min-width:0){
     // Vertically rotated headline
     .vertical-text{
