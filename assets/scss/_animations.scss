@@ -25,8 +25,10 @@
         inset: 0;
         opacity: 0;
         transform: scale(0.98);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
         will-change: opacity, transform;
-        box-sizing: border-box; 
+        box-sizing: border-box;
         @media (max-width:$tablet){
           img{
               aspect-ratio: 5/2;
@@ -39,6 +41,24 @@
           transform: none;
         }
     }
+}
+
+@supports (height: 100svh) {
+  .pillar-stage { height: 100svh; }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .pillar-stage { overflow: hidden; }
+}
+
+@supports (-webkit-touch-callout: none) {
+  @media (hover: none) and (pointer: coarse) {
+    .pillar-stage .pillar-pin {
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      will-change: opacity, transform;
+    }
+  }
 }
 
 // GSAP Marquee
