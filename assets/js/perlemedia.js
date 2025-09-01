@@ -43,9 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
     interval: 6000,
     pauseOnHover: true,
     loop: true,
-    keyboard: true,
+    keyboard: false,
     autoHeight: true,
-    touch: true,
+    touch: false,
   };
 
   document.addEventListener('DOMContentLoaded', initAll);

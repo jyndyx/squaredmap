@@ -52,6 +52,7 @@
 .testimonial-container {
     position: relative;
     overflow: hidden!important;
+    box-sizing: content-box!important;
     .testimonial-track {
         display: flex;
         flex-direction: row;     
