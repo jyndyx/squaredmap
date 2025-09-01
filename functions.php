@@ -18,18 +18,28 @@ function perlemedia_enqueue_styles() {
 add_action( 'wp_enqueue_scripts', 'perlemedia_enqueue_styles' );
 
 /**
- * Inject Google Analytics Script
+ * Inject GTM Scripts
  */
 add_action('wp_head', function () { ?>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKJT0LQ3D"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-CXKJT0LQ3D');
-  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-FMQ8RV8D');</script>
+  <!-- End Google Tag Manager -->
 <?php }, 1);
+
+function pm_insert_gtm_body_noscript() {
+    if ( is_admin() ) return; // front-end only
+    ?>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-FMQ8RV8D"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <?php
+}
+add_action('wp_body_open', 'pm_insert_gtm_body_noscript', 0);
 
 /**
  * Custom login page logo
