@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 (function () {
   const SETTINGS = {
     autoplay: true,
-    interval: 6000,
+    interval: 10000,
     pauseOnHover: true,
     loop: true,
     keyboard: false,
